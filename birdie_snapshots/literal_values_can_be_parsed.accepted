@@ -1,0 +1,5 @@
+---
+version: 1.0.4
+title: literal values can be parsed
+---
+Ok(File(exprs: [Num(123), Num(42.3), Str("hello\\'there!"), Ident("foo-bar"), Symbol("foo-bar"), Ident("+")]))

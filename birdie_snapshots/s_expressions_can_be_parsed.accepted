@@ -1,0 +1,5 @@
+---
+version: 1.0.4
+title: s-expressions can be parsed
+---
+Ok(File(exprs: [SExpr(ident: "*", body: [SExpr(ident: "+", body: [Ident("a"), Ident("b")]), Num(20)])]))
