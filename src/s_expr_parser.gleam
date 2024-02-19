@@ -16,7 +16,7 @@ import gleam/result
 import gleam/string
 import gleam/function
 import nibble/lexer.{type Lexer, type Span, Span}
-import nibble.{type Parser, do, return, fail}
+import nibble.{type Parser, do, fail, return}
 
 // --- TYPES -------------------------------------------------------------------
 
