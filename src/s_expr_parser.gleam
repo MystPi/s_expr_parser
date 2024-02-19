@@ -15,9 +15,8 @@ import gleam/set
 import gleam/result
 import gleam/string
 import gleam/function
-import gleam/option.{None, Some}
-import nibble/lexer.{type Lexer}
-import nibble.{type Parser, do, return}
+import nibble/lexer.{type Lexer, type Span, Span}
+import nibble.{type Parser, do, return, fail}
 
 // --- TYPES -------------------------------------------------------------------
 
@@ -35,11 +34,11 @@ pub type File {
 }
 
 pub type Expr {
-  SExpr(ident: String, body: List(Expr))
-  Str(String)
-  Num(Float)
-  Ident(String)
-  Symbol(String)
+  SExpr(ident: String, body: List(Expr), location: Span)
+  Str(String, location: Span)
+  Num(Float, location: Span)
+  Ident(String, location: Span)
+  Symbol(String, location: Span)
 }
 
 pub type Error {
@@ -104,31 +103,37 @@ fn expr_parser() -> Parser(Expr, Token, Nil) {
 }
 
 fn literal_parser() -> Parser(Expr, Token, Nil) {
-  use token <- nibble.take_map("a literal value")
+  use token <- nibble.do(nibble.any())
+  use location <- nibble.do(nibble.span())
 
   case token {
-    StrT(s) -> Some(Str(s))
-    NumT(n) -> Some(Num(n))
-    IdentT(i) -> Some(Ident(i))
-    SymbolT(s) -> Some(Symbol(s))
-    _ -> None
+    StrT(s) -> return(Str(s, location))
+    NumT(n) -> return(Num(n, location))
+    IdentT(i) -> return(Ident(i, location))
+    SymbolT(s) -> return(Symbol(s, location))
+    _ -> nibble.fail("expected a literal value")
   }
 }
 
 fn s_expr_parser() -> Parser(Expr, Token, Nil) {
   use _ <- do(nibble.token(LParenT))
+  use start <- do(nibble.span())
   use ident <- do(ident_parser())
   use body <- do(nibble.many(expr_parser()))
   use _ <- do(nibble.token(RParenT))
-  return(SExpr(ident, body))
+  use end <- do(nibble.span())
+
+  let location = combine_spans(start, end)
+
+  return(SExpr(ident, body, location))
 }
 
 fn ident_parser() -> Parser(String, Token, Nil) {
-  use token <- nibble.take_map("an identifier")
+  use token <- nibble.do(nibble.any())
 
   case token {
-    IdentT(i) -> Some(i)
-    _ -> None
+    IdentT(i) -> return(i)
+    _ -> fail("expected an identifier")
   }
 }
 
@@ -138,4 +143,8 @@ pub fn lex_and_parse(input: String) -> Result(File, Error) {
   input
   |> lex
   |> result.then(parse)
+}
+
+fn combine_spans(from: Span, to: Span) -> Span {
+  Span(from.row_start, from.col_start, to.row_end, to.col_end)
 }

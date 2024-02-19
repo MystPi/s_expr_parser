@@ -2,4 +2,4 @@
 version: 1.0.4
 title: s-expressions can be parsed
 ---
-Ok(File(exprs: [SExpr(ident: "*", body: [SExpr(ident: "+", body: [Ident("a"), Ident("b")]), Num(20)])]))
+Ok(File(exprs: [SExpr(ident: "*", body: [SExpr(ident: "+", body: [Ident("a", location: Span(row_start: 2, col_start: 9, row_end: 2, col_end: 10)), Ident("b", location: Span(row_start: 2, col_start: 11, row_end: 2, col_end: 12))], location: Span(row_start: 2, col_start: 6, row_end: 2, col_end: 13)), Num(20, location: Span(row_start: 2, col_start: 14, row_end: 2, col_end: 16))], location: Span(row_start: 2, col_start: 3, row_end: 2, col_end: 17))]))

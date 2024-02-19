@@ -2,4 +2,4 @@
 version: 1.0.4
 title: s-expressions must begin with an identifier
 ---
-Error(ParseError([DeadEnd(pos: Span(row_start: 1, col_start: 1, row_end: 1, col_end: 1), problem: Expected("a literal value", got: LParenT), context: []), DeadEnd(pos: Span(row_start: 2, col_start: 3, row_end: 2, col_end: 4), problem: Expected("an identifier", got: SymbolT("blah")), context: [])]))
+Error(ParseError([DeadEnd(pos: Span(row_start: 2, col_start: 3, row_end: 2, col_end: 4), problem: Custom("expected a literal value"), context: []), DeadEnd(pos: Span(row_start: 2, col_start: 4, row_end: 2, col_end: 9), problem: Custom("expected an identifier"), context: [])]))

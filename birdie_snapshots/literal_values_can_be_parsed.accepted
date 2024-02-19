@@ -2,4 +2,4 @@
 version: 1.0.4
 title: literal values can be parsed
 ---
-Ok(File(exprs: [Num(123), Num(42.3), Str("hello\\'there!"), Ident("foo-bar"), Symbol("foo-bar"), Ident("+")]))
+Ok(File(exprs: [Num(123, location: Span(row_start: 2, col_start: 3, row_end: 2, col_end: 6)), Num(42.3, location: Span(row_start: 3, col_start: 3, row_end: 3, col_end: 7)), Str("hello\\'there!", location: Span(row_start: 4, col_start: 3, row_end: 4, col_end: 18)), Ident("foo-bar", location: Span(row_start: 5, col_start: 3, row_end: 5, col_end: 10)), Symbol("foo-bar", location: Span(row_start: 6, col_start: 3, row_end: 6, col_end: 11)), Ident("+", location: Span(row_start: 7, col_start: 3, row_end: 7, col_end: 4))]))
